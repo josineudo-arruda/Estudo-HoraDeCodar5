@@ -13,9 +13,45 @@
 
         function cadastro() {
             var nome = "";
+            while(estaVazio(nome)) {
+                nome = prompt("Insira seu nome para cadastro:");
+                if (estaVazio(nome)) {
+                    alert("Nome não pode estar vazio!");
+                }
+            }
+            nome = nome.toLocaleUpperCase();
             var agencia = "";
+            while(agencia == "" || isNaN(agencia) || (senha > 99999 || senha < 1000) ) {
+                agencia = prompt("Insira o seu número de agencia (cinco números):");
+                if (agencia == "") {
+                    alert("Agência não pode estar vazia!");
+                }
+                if (isNaN(agencia)) {
+                    alert("Agência tem que ser um número!");
+                }
+                if (agencia > 99999) {
+                    alert("Agência tem que ser apenas 5 números!");
+                }
+            }
             var senha = 0;
-            
+            while(senha == "" || isNaN(senha) || (senha > 9999 || senha < 10000) ) {
+                senha = prompt("Insira a sua senha (quatro números):");
+                if (senha == "") {
+                    alert("Agência não pode estar vazia!");
+                }
+                if (isNaN(senha)) {
+                    alert("Agência tem que ser um número!");
+                }
+                if (senha > 9999 || senha < 1000) {
+                    alert("Agência tem que ser apenas 4 números!");
+                }
+            }
+            user = {
+                name: nome,
+                agencia: agencia,
+                senha: senha
+            }
+            usuarios.push(user);
         }
 
         function estaCadastrado(string) {
@@ -24,10 +60,10 @@
             } else {
                 var resposta = 0;
                 while(resposta != 1 || resposta != 2)
-                resposta = prompt("Usuário não cadastrado!\nDeseja se cadastrar?\n1- SIM\n2-NÃO");
+                resposta = parseInt(prompt("Usuário não cadastrado!\nDeseja se cadastrar?\n1- SIM\n2- NÃO"));
                 switch(resposta) {
                     case 1:
-                        cadastro()
+                        cadastro();
                         break;
                     case 2:
                         break;
@@ -40,13 +76,13 @@
         usuarios = [
             { 
                 name: 'JOSINEUDO ARRUDA', 
-                agencia: '1234-9', 
-                senha: '6666' 
+                agencia: 12349, 
+                senha: 6666 
             },
             { 
                 name: 'GABRIEL AUGUSTO', 
-                agencia: '1234-7', 
-                senha: '3589' 
+                agencia: 12347, 
+                senha: 3589 
             },
             
         ]
