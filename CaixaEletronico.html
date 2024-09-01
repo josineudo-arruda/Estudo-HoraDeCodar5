@@ -8,17 +8,40 @@
         function estaVazio(string) {
             if(string == "") {
                 alert("Valor inserido esta vazio!");
-            } else {
-
             }
         }
+
+        function estaCadastrado(string) {
+            if(usuarios.some(usuario => usuario.name === nome)) {
+                return usuarios.some(usuario => usuario.name === nome);
+            } else {
+                alert("Usuário não cadastrado!");
+            }
+        }
+
+        usuarios = [
+            { 
+                name: 'JOSINEUDO ARRUDA', 
+                agencia: '1234-9', 
+                senha: '6666' 
+            },
+            { 
+                name: 'GABRIEL AUGUSTO', 
+                agencia: '1234-7', 
+                senha: '3589' 
+            },
+            
+        ]
 
         var end = false;
         while(!end) {
             var nome = "";
-            while(nome == "") {
-                nome = prompt("--------------------------------------------------------\n         SEJA BEM-VINDO AO CAIXA ELETRÔNICO     \n--------------------------------------------------------\nInsira seu Nome:");
+            while(nome == "" || !(usuarios.some(usuario => usuario.name === nome))) {
+                nome = prompt("--------------------------------------------------------\n         SEJA BEM-VINDO AO CAIXA ELETRÔNICO     \n--------------------------------------------------------\nInsira seu nome Cadastrado:");
+                estaVazio(nome);
+                nome = nome.toLocaleUpperCase();
             }
+            alert("Bem vindo "+nome);
         }
     </script>
   </head>
