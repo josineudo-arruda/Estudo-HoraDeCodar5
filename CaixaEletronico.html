@@ -5,9 +5,20 @@
     <meta name="viewport" content="width-device-width, initial-scale=1.0">
     <title>Caixa Eletrônico</title>
     <script>
+        function estaVazio(string) {
+            if(string == "") {
+                alert("Valor inserido esta vazio!");
+            } else {
+
+            }
+        }
+
         var end = false;
         while(!end) {
-            prompt("--------------------------------------------------------\n         SEJA BEM-VINDO AO CAIXA ELETRÔNICO     \n--------------------------------------------------------\nInsira seu Nome:")
+            var nome = "";
+            while(nome == "") {
+                nome = prompt("--------------------------------------------------------\n         SEJA BEM-VINDO AO CAIXA ELETRÔNICO     \n--------------------------------------------------------\nInsira seu Nome:");
+            }
         }
     </script>
   </head>
