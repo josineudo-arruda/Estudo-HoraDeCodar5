@@ -11,11 +11,29 @@
             }
         }
 
+        function cadastro() {
+            var nome = "";
+            var agencia = "";
+            var senha = 0;
+            
+        }
+
         function estaCadastrado(string) {
             if(usuarios.some(usuario => usuario.name === nome)) {
                 return usuarios.some(usuario => usuario.name === nome);
             } else {
-                alert("Usuário não cadastrado!");
+                var resposta = 0;
+                while(resposta != 1 || resposta != 2)
+                resposta = prompt("Usuário não cadastrado!\nDeseja se cadastrar?\n1- SIM\n2-NÃO");
+                switch(resposta) {
+                    case 1:
+                        cadastro()
+                        break;
+                    case 2:
+                        break;
+                    default: 
+                        alert("Valor inserido incorreto. Tente novamente!");
+                }
             }
         }
 
@@ -36,7 +54,7 @@
         var end = false;
         while(!end) {
             var nome = "";
-            while(nome == "" || !(usuarios.some(usuario => usuario.name === nome))) {
+            while(nome == "" || !(estaCadastrado(nome))) {
                 nome = prompt("--------------------------------------------------------\n         SEJA BEM-VINDO AO CAIXA ELETRÔNICO     \n--------------------------------------------------------\nInsira seu nome Cadastrado:");
                 estaVazio(nome);
                 nome = nome.toLocaleUpperCase();
