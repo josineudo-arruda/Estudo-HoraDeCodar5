@@ -54,13 +54,13 @@
             while(senha == "" || isNaN(senha) || (senha > 9999 || senha < 1000) ) {
                 senha = prompt("Insira a sua senha (quatro números):");
                 if (senha == "") {
-                    alert("Agência não pode estar vazia!");
+                    alert("Senha não pode estar vazia!");
                 }
                 if (isNaN(senha)) {
-                    alert("Agência tem que ser um número!");
+                    alert("Senha tem que ser um número!");
                 }
                 if (senha > 9999 || senha < 1000) {
-                    alert("Agência tem que ser apenas 4 números!");
+                    alert("Senha tem que ser apenas 4 números!");
                 }
             }
             user = {
@@ -93,98 +93,132 @@
             }
         }
 
+        function checarSenha(user_data) {
+            var senha = 0;
+            while(senha == "" || isNaN(senha) || (senha > 9999 || senha < 1000) ) {
+                senha = prompt("Insira a sua senha (quatro números):");
+                if (senha == "") {
+                    alert("Senha não pode estar vazia!");
+                }
+                if (isNaN(senha)) {
+                    alert("Senha tem que ser um número!");
+                }
+                if (senha > 9999 || senha < 1000) {
+                    alert("Senha tem que ser apenas 4 números!");
+                }
+            }
+            if(user_data.senha == senha) {
+                return true;
+            } else {
+                alert("Senha Incorreta!");
+                return false;
+            }
+        }
+
         function saldo(user_data) {
-            alert("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nSaldo: "+user_data.saldo+"\n--------------------------------------------------------");
+            if(checarSenha(user_data)) {
+                alert("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nSaldo: "+user_data.saldo+"\n--------------------------------------------------------");
+            }
         }
 
         function extrato(user_data) {
-            var mensagem_extrato = "";
-            for (i=0;i<user_data.extrato.length; i++) {
-                mensagem_extrato += "\n" + user_data.extrato[i];
+            if(checarSenha(user_data)) {
+                var mensagem_extrato = "";
+                for (i=0;i<user_data.extrato.length; i++) {
+                    mensagem_extrato += "\n" + user_data.extrato[i];
+                }
+                alert("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nExtrato: "+mensagem_extrato+" \n--------------------------------------------------------");
             }
-            alert("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nExtrato: "+mensagem_extrato+" \n--------------------------------------------------------");
+            
         }
 
         function saque(user_data) {
-            var quantia = 0;
-            while(quantia == '' || isNaN(quantia) || quantia <= 0) {
-                quantia = parseFloat(prompt("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nQuanto você deseja sacar?\n--------------------------------------------------------"));
-                if (quantia == '') {
-                alert("O valor do saque não pode ser nulo!");
+            if(checarSenha(user_data)) {
+                var quantia = 0;
+                while(quantia == '' || isNaN(quantia) || quantia <= 0) {
+                    quantia = parseFloat(prompt("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nQuanto você deseja sacar?\n--------------------------------------------------------"));
+                    if (quantia == '') {
+                    alert("O valor do saque não pode ser nulo!");
+                    }
+                    if (isNaN(quantia)) {
+                        alert("O valor do saque deve ser apenas numerais!");
+                    }
+                    if (quantia <= 0) {
+                        alert("O valor do saque deve ser maior que zero!");
+                    }
                 }
-                if (isNaN(quantia)) {
-                    alert("O valor do saque deve ser apenas numerais!");
+                if (user_data.saldo >= quantia) {
+                    user_data.saldo -= quantia;
+                    alert("Saque realizado com sucesso! Novo saldo: R$ "+user_data.saldo.toFixed(2));
+                    var mensagem_extrato = ("Despesa: -R$ "+quantia.toFixed(2));
+                    user_data.extrato.push(mensagem_extrato);
+                } else {
+                    alert("Saldo insuficiente!");
                 }
-                if (quantia <= 0) {
-                    alert("O valor do saque deve ser maior que zero!");
-                }
-            }
-            if (user_data.saldo >= quantia) {
-                user_data.saldo -= quantia;
-                alert("Saque realizado com sucesso! Novo saldo: R$ "+user_data.saldo.toFixed(2));
-                var mensagem_extrato = ("Despesa: -R$ "+quantia.toFixed(2));
-                user_data.extrato.push(mensagem_extrato);
-            } else {
-                alert("Saldo insuficiente!");
-            }
+            } 
         }
 
         function deposito(user_data) {
-            var quantia = 0;
-            while(quantia == '' || isNaN(quantia) || quantia <= 0) {
-                quantia = parseFloat(prompt("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nQuanto você deseja depositar?\n--------------------------------------------------------"));
-                if (quantia == '') {
-                alert("O valor do depósito não pode ser nulo!");
+            if(checarSenha(user_data)) {
+                var quantia = 0;
+                while(quantia == '' || isNaN(quantia) || quantia <= 0) {
+                    quantia = parseFloat(prompt("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nQuanto você deseja depositar?\n--------------------------------------------------------"));
+                    if (quantia == '') {
+                    alert("O valor do depósito não pode ser nulo!");
+                    }
+                    if (isNaN(quantia)) {
+                        alert("O valor do depósito deve ser apenas numerais!");
+                    }
+                    if (quantia <= 0) {
+                        alert("O valor do depósito deve ser maior que zero!");
+                    }
                 }
-                if (isNaN(quantia)) {
-                    alert("O valor do depósito deve ser apenas numerais!");
-                }
-                if (quantia <= 0) {
-                    alert("O valor do depósito deve ser maior que zero!");
-                }
+                user_data.saldo += quantia;
+                alert("Depósito realizado com sucesso! Novo saldo: R$ "+user_data.saldo.toFixed(2));
+                
+                var mensagem_extrato = ("Ganho: +R$ "+quantia.toFixed(2));
+                user_data.extrato.push(mensagem_extrato);
             }
-            user_data.saldo += quantia;
-            alert("Depósito realizado com sucesso! Novo saldo: R$ "+user_data.saldo.toFixed(2));
-            var mensagem_extrato = ("Ganho: +R$ "+quantia.toFixed(2));
-            user_data.extrato.push(mensagem_extrato);
         }
 
         function transferencia(user_data) {
-            var user_name = '';
-            while(!(usuarios.some(user => user.name === user_name))) {
-                user_name = prompt("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nDigite o nome da conta para transferência:\n--------------------------------------------------------");
-                user_name = user_name.toLocaleUpperCase();
-                user_name = user_name.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-                if(!(usuarios.some(user => user.name === user_name))) {
-                    alert("Nome de usuário não encontrado");
+            if(checarSenha(user_data)) {
+                var user_name = '';
+                while(!(usuarios.some(user => user.name === user_name))) {
+                    user_name = prompt("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nDigite o nome da conta para transferência:\n--------------------------------------------------------");
+                    user_name = user_name.toLocaleUpperCase();
+                    user_name = user_name.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+                    if(!(usuarios.some(user => user.name === user_name))) {
+                        alert("Nome de usuário não encontrado");
+                    }
                 }
-            }
-            var user_trans = usuarios.find(user => user.name === user_name);
+                var user_trans = usuarios.find(user => user.name === user_name);
 
-            var quantia = 0;
-            while(quantia == '' || isNaN(quantia) || quantia <= 0) {
-                quantia = parseFloat(prompt("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nQuanto você deseja transferir?\n--------------------------------------------------------"));
-                if (quantia == '') {
-                alert("O valor da tranferência não pode ser nulo!");
+                var quantia = 0;
+                while(quantia == '' || isNaN(quantia) || quantia <= 0) {
+                    quantia = parseFloat(prompt("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nQuanto você deseja transferir?\n--------------------------------------------------------"));
+                    if (quantia == '') {
+                    alert("O valor da tranferência não pode ser nulo!");
+                    }
+                    if (isNaN(quantia)) {
+                        alert("O valor da tranferência deve ser apenas numerais!");
+                    }
+                    if (quantia <= 0) {
+                        alert("O valor da tranferência deve ser maior que zero!");
+                    }
                 }
-                if (isNaN(quantia)) {
-                    alert("O valor da tranferência deve ser apenas numerais!");
-                }
-                if (quantia <= 0) {
-                    alert("O valor da tranferência deve ser maior que zero!");
-                }
-            }
-            if (user_data.saldo >= quantia) {
-                user_data.saldo -= quantia;
-                user_trans.saldo += quantia;
-                alert("Transferência realizada com sucesso! Novo saldo: R$ "+user_data.saldo.toFixed(2));
-                var mensagem_extrato = ("Despesa: -R$ "+quantia.toFixed(2));
-                user_data.extrato.push(mensagem_extrato);
+                if (user_data.saldo >= quantia) {
+                    user_data.saldo -= quantia;
+                    user_trans.saldo += quantia;
+                    alert("Transferência realizada com sucesso! Novo saldo: R$ "+user_data.saldo.toFixed(2));
+                    var mensagem_extrato = ("Despesa: -R$ "+quantia.toFixed(2));
+                    user_data.extrato.push(mensagem_extrato);
 
-                var mensagem_extrato_trans = ("Ganho: +R$ "+quantia.toFixed(2));
-                user_trans.extrato.push(mensagem_extrato_trans);
-            } else {
-                alert("Saldo insuficiente!");
+                    var mensagem_extrato_trans = ("Ganho: +R$ "+quantia.toFixed(2));
+                    user_trans.extrato.push(mensagem_extrato_trans);
+                } else {
+                    alert("Saldo insuficiente!");
+                }
             }
         }
 
