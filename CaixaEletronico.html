@@ -5,23 +5,37 @@
     <meta name="viewport" content="width-device-width, initial-scale=1.0">
     <title>Caixa Eletrônico</title>
     <script>
+        usuarios = [
+            { 
+                name: 'JOSINEUDO ARRUDA', 
+                agencia: 12349, 
+                senha: 6666, 
+                saldo: 10000
+            },
+            { 
+                name: 'GABRIEL AUGUSTO', 
+                agencia: 12347, 
+                senha: 3589,
+                saldo: 1
+            },
+            
+        ]
+
         function estaVazio(string) {
-            if(string == "") {
-                alert("Valor inserido esta vazio!");
-            }
+            return string === "";
         }
 
         function cadastro() {
             var nome = "";
-            while(estaVazio(nome)) {
+            while(nome == "") {
                 nome = prompt("Insira seu nome para cadastro:");
                 if (estaVazio(nome)) {
                     alert("Nome não pode estar vazio!");
                 }
             }
             nome = nome.toLocaleUpperCase();
-            var agencia = "";
-            while(agencia == "" || isNaN(agencia) || (senha > 99999 || senha < 1000) ) {
+            var agencia = 0;
+            while(agencia == "" || isNaN(agencia) || (agencia > 99999 || agencia < 10000) ) {
                 agencia = prompt("Insira o seu número de agencia (cinco números):");
                 if (agencia == "") {
                     alert("Agência não pode estar vazia!");
@@ -29,12 +43,12 @@
                 if (isNaN(agencia)) {
                     alert("Agência tem que ser um número!");
                 }
-                if (agencia > 99999) {
+                if (agencia > 99999 || agencia < 10000) {
                     alert("Agência tem que ser apenas 5 números!");
                 }
             }
             var senha = 0;
-            while(senha == "" || isNaN(senha) || (senha > 9999 || senha < 10000) ) {
+            while(senha == "" || isNaN(senha) || (senha > 9999 || senha < 1000) ) {
                 senha = prompt("Insira a sua senha (quatro números):");
                 if (senha == "") {
                     alert("Agência não pode estar vazia!");
@@ -49,53 +63,49 @@
             user = {
                 name: nome,
                 agencia: agencia,
-                senha: senha
+                senha: senha,
+                saldo: 1000
             }
             usuarios.push(user);
         }
 
         function estaCadastrado(string) {
-            if(usuarios.some(usuario => usuario.name === nome)) {
-                return usuarios.some(usuario => usuario.name === nome);
+            if(usuarios.some(usuario => usuario.name === string)) {
+                return true;
             } else {
                 var resposta = 0;
-                while(resposta != 1 || resposta != 2)
+                while(resposta !== 1 && resposta !== 2)
                 resposta = parseInt(prompt("Usuário não cadastrado!\nDeseja se cadastrar?\n1- SIM\n2- NÃO"));
                 switch(resposta) {
                     case 1:
                         cadastro();
-                        break;
+                        return true;
                     case 2:
-                        break;
+                        return false;
                     default: 
                         alert("Valor inserido incorreto. Tente novamente!");
+                        return false;
                 }
             }
         }
-
-        usuarios = [
-            { 
-                name: 'JOSINEUDO ARRUDA', 
-                agencia: 12349, 
-                senha: 6666 
-            },
-            { 
-                name: 'GABRIEL AUGUSTO', 
-                agencia: 12347, 
-                senha: 3589 
-            },
-            
-        ]
 
         var end = false;
         while(!end) {
             var nome = "";
             while(nome == "" || !(estaCadastrado(nome))) {
-                nome = prompt("--------------------------------------------------------\n         SEJA BEM-VINDO AO CAIXA ELETRÔNICO     \n--------------------------------------------------------\nInsira seu nome Cadastrado:");
+                nome = prompt("--------------------------------------------------------\n     SEJA BEM-VINDO AO CAIXA ELETRÔNICO     \n--------------------------------------------------------\nInsira seu nome Cadastrado:");
                 estaVazio(nome);
                 nome = nome.toLocaleUpperCase();
             }
-            alert("Bem vindo "+nome);
+            alert("Bem vindo "+nome+"\nClique em 'OK' para continuar");
+            var resposta = '';
+            var dados_user = usuarios.some(user => user.name === nome);
+            while(resposta == '') {
+                resposta = prompt("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nDados:\n--------------------------------------------------------\nNome: "+dados_user.name+"");
+            }
+
+
+            end = confirm("Deseja sair?");
         }
     </script>
   </head>
