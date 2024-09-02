@@ -27,7 +27,7 @@
             return string === "";
         }
 
-        function cadastro() {
+        function cadastrar() {
             var nome = "";
             while(nome == "") {
                 nome = prompt("Insira seu nome para cadastro:");
@@ -82,7 +82,7 @@
                 resposta = parseInt(prompt("Usuário não cadastrado!\nDeseja se cadastrar?\n1- SIM\n2- NÃO"));
                 switch(resposta) {
                     case 1:
-                        cadastro();
+                        cadastrar();
                         return true;
                     case 2:
                         return false;
@@ -115,13 +115,13 @@
             }
         }
 
-        function saldo(user_data) {
+        function mostrarSaldo(user_data) {
             if(checarSenha(user_data)) {
                 alert("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nSaldo: "+user_data.saldo+"\n--------------------------------------------------------");
             }
         }
 
-        function extrato(user_data) {
+        function mostrarExtrato(user_data) {
             if(checarSenha(user_data)) {
                 var mensagem_extrato = "";
                 for (i=0;i<user_data.extrato.length; i++) {
@@ -132,7 +132,7 @@
             
         }
 
-        function saque(user_data) {
+        function fazerSaque(user_data) {
             if(checarSenha(user_data)) {
                 var quantia = 0;
                 while(quantia == '' || isNaN(quantia) || quantia <= 0) {
@@ -158,7 +158,7 @@
             } 
         }
 
-        function deposito(user_data) {
+        function fazerDeposito(user_data) {
             if(checarSenha(user_data)) {
                 var quantia = 0;
                 while(quantia == '' || isNaN(quantia) || quantia <= 0) {
@@ -181,7 +181,7 @@
             }
         }
 
-        function transferencia(user_data) {
+        function fazerTransferencia(user_data) {
             if(checarSenha(user_data)) {
                 var user_name = '';
                 while(!(usuarios.some(user => user.name === user_name))) {
@@ -236,19 +236,19 @@
                 var resposta = parseInt(prompt("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nDados:\n--------------------------------------------------------\nNome: "+dados_user.name+"\nAgência: "+dados_user.agencia+"\nSaldo: R$"+dados_user.saldo+"\n--------------------------------------------------------\nO que deseja fazer?\n--------------------------------------------------------\n1- Saldo\n2- Extrato\n3- Saque\n4- Depósito\n5- Transferência\n6- Sair\n--------------------------------------------------------"));
                 switch(resposta) {
                     case 1:
-                        saldo(dados_user);
+                        mostrarSaldo(dados_user);
                         break;
                     case 2:
-                        extrato(dados_user);
+                        mostrarExtrato(dados_user);
                         break;
                     case 3:
-                        saque(dados_user);
+                        fazerSaque(dados_user);
                         break;
                     case 4:
-                        deposito(dados_user);
+                        fazerDeposito(dados_user);
                         break;
                     case 5:
-                        transferencia(dados_user);
+                        fazerTransferencia(dados_user);
                         break;
                     case 6:
                         end = confirm("Deseja sair?");
