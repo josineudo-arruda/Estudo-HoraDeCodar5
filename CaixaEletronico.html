@@ -10,13 +10,15 @@
                 name: 'JOSINEUDO ARRUDA', 
                 agencia: 12349, 
                 senha: 6666, 
-                saldo: 10000
+                saldo: 10000,
+                extrato: ['Ganho: +R$ 1000.00','Ganho: +R$99000.00']
             },
             { 
                 name: 'GABRIEL AUGUSTO', 
                 agencia: 12347, 
                 senha: 3589,
-                saldo: 1
+                saldo: 1,
+                extrato: ['Ganho: +R$ 1000.00','Despesa: -R$999.00']
             },
             
         ]
@@ -34,6 +36,7 @@
                 }
             }
             nome = nome.toLocaleUpperCase();
+            nome = nome.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
             var agencia = 0;
             while(agencia == "" || isNaN(agencia) || (agencia > 99999 || agencia < 10000) ) {
                 agencia = prompt("Insira o seu número de agencia (cinco números):");
@@ -64,7 +67,8 @@
                 name: nome,
                 agencia: agencia,
                 senha: senha,
-                saldo: 1000
+                saldo: 1000,
+                extrato: ['Ganho: +R$ 1000.00']
             }
             usuarios.push(user);
         }
@@ -89,6 +93,101 @@
             }
         }
 
+        function saldo(user_data) {
+            alert("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nSaldo: "+user_data.saldo+"\n--------------------------------------------------------");
+        }
+
+        function extrato(user_data) {
+            var mensagem_extrato = "";
+            for (i=0;i<user_data.extrato.length; i++) {
+                mensagem_extrato += "\n" + user_data.extrato[i];
+            }
+            alert("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nExtrato: "+mensagem_extrato+" \n--------------------------------------------------------");
+        }
+
+        function saque(user_data) {
+            var quantia = 0;
+            while(quantia == '' || isNaN(quantia) || quantia <= 0) {
+                quantia = parseFloat(prompt("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nQuanto você deseja sacar?\n--------------------------------------------------------"));
+                if (quantia == '') {
+                alert("O valor do saque não pode ser nulo!");
+                }
+                if (isNaN(quantia)) {
+                    alert("O valor do saque deve ser apenas numerais!");
+                }
+                if (quantia <= 0) {
+                    alert("O valor do saque deve ser maior que zero!");
+                }
+            }
+            if (user_data.saldo >= quantia) {
+                user_data.saldo -= quantia;
+                alert("Saque realizado com sucesso! Novo saldo: R$ "+user_data.saldo.toFixed(2));
+                var mensagem_extrato = ("Despesa: -R$ "+quantia.toFixed(2));
+                user_data.extrato.push(mensagem_extrato);
+            } else {
+                alert("Saldo insuficiente!");
+            }
+        }
+
+        function deposito(user_data) {
+            var quantia = 0;
+            while(quantia == '' || isNaN(quantia) || quantia <= 0) {
+                quantia = parseFloat(prompt("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nQuanto você deseja depositar?\n--------------------------------------------------------"));
+                if (quantia == '') {
+                alert("O valor do depósito não pode ser nulo!");
+                }
+                if (isNaN(quantia)) {
+                    alert("O valor do depósito deve ser apenas numerais!");
+                }
+                if (quantia <= 0) {
+                    alert("O valor do depósito deve ser maior que zero!");
+                }
+            }
+            user_data.saldo += quantia;
+            alert("Depósito realizado com sucesso! Novo saldo: R$ "+user_data.saldo.toFixed(2));
+            var mensagem_extrato = ("Ganho: +R$ "+quantia.toFixed(2));
+            user_data.extrato.push(mensagem_extrato);
+        }
+
+        function transferencia(user_data) {
+            var user_name = '';
+            while(!(usuarios.some(user => user.name === user_name))) {
+                user_name = prompt("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nDigite o nome da conta para transferência:\n--------------------------------------------------------");
+                user_name = user_name.toLocaleUpperCase();
+                user_name = user_name.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+                if(!(usuarios.some(user => user.name === user_name))) {
+                    alert("Nome de usuário não encontrado");
+                }
+            }
+            var user_trans = usuarios.find(user => user.name === user_name);
+
+            var quantia = 0;
+            while(quantia == '' || isNaN(quantia) || quantia <= 0) {
+                quantia = parseFloat(prompt("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nQuanto você deseja transferir?\n--------------------------------------------------------"));
+                if (quantia == '') {
+                alert("O valor da tranferência não pode ser nulo!");
+                }
+                if (isNaN(quantia)) {
+                    alert("O valor da tranferência deve ser apenas numerais!");
+                }
+                if (quantia <= 0) {
+                    alert("O valor da tranferência deve ser maior que zero!");
+                }
+            }
+            if (user_data.saldo >= quantia) {
+                user_data.saldo -= quantia;
+                user_trans.saldo += quantia;
+                alert("Transferência realizada com sucesso! Novo saldo: R$ "+user_data.saldo.toFixed(2));
+                var mensagem_extrato = ("Despesa: -R$ "+quantia.toFixed(2));
+                user_data.extrato.push(mensagem_extrato);
+
+                var mensagem_extrato_trans = ("Ganho: +R$ "+quantia.toFixed(2));
+                user_trans.extrato.push(mensagem_extrato_trans);
+            } else {
+                alert("Saldo insuficiente!");
+            }
+        }
+
         var end = false;
         while(!end) {
             var nome = "";
@@ -98,14 +197,33 @@
                 nome = nome.toLocaleUpperCase();
             }
             alert("Bem vindo "+nome+"\nClique em 'OK' para continuar");
-            var resposta = '';
             var dados_user = usuarios.find(user => user.name == nome);
-            while(resposta == '') {
-                resposta = prompt("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nDados:\n--------------------------------------------------------\nNome: "+dados_user.name+"\nAgência: "+dados_user.agencia+"\nSaldo: R$"+dados_user.saldo+"\n--------------------------------------------------------\nO que deseja fazer?:\n--------------------------------------------------------\n1- Saldo\n2- Extrato");
-            }
-
-
-            end = confirm("Deseja sair?");
+            while(!end) {
+                var resposta = parseInt(prompt("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nDados:\n--------------------------------------------------------\nNome: "+dados_user.name+"\nAgência: "+dados_user.agencia+"\nSaldo: R$"+dados_user.saldo+"\n--------------------------------------------------------\nO que deseja fazer?\n--------------------------------------------------------\n1- Saldo\n2- Extrato\n3- Saque\n4- Depósito\n5- Transferência\n6- Sair\n--------------------------------------------------------"));
+                switch(resposta) {
+                    case 1:
+                        saldo(dados_user);
+                        break;
+                    case 2:
+                        extrato(dados_user);
+                        break;
+                    case 3:
+                        saque(dados_user);
+                        break;
+                    case 4:
+                        deposito(dados_user);
+                        break;
+                    case 5:
+                        transferencia(dados_user);
+                        break;
+                    case 6:
+                        end = confirm("Deseja sair?");
+                        break;
+                    default:
+                        alert("Valor inserido inválido. tente novamente!");
+                        break;
+                }
+            }   
         }
     </script>
   </head>
