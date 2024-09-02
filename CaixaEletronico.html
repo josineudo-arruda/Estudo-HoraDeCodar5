@@ -99,9 +99,9 @@
             }
             alert("Bem vindo "+nome+"\nClique em 'OK' para continuar");
             var resposta = '';
-            var dados_user = usuarios.some(user => user.name === nome);
+            var dados_user = usuarios.find(user => user.name == nome);
             while(resposta == '') {
-                resposta = prompt("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nDados:\n--------------------------------------------------------\nNome: "+dados_user.name+"");
+                resposta = prompt("--------------------------------------------------------\n             CAIXA ELETRÔNICO     \n--------------------------------------------------------\nDados:\n--------------------------------------------------------\nNome: "+dados_user.name+"\nAgência: "+dados_user.agencia+"\nSaldo: R$"+dados_user.saldo+"\n--------------------------------------------------------\nO que deseja fazer?:\n--------------------------------------------------------\n1- Saldo\n2- Extrato");
             }
 
 
